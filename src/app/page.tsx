@@ -265,7 +265,7 @@ function WaitlistForm() {
             </motion.button>
           </div>
           <p className="text-center text-stone-500 text-sm mt-4">
-            Join 2,000+ marketers already on the waitlist
+            Join 500+ marketers already on the waitlist
           </p>
         </motion.form>
       )}
@@ -367,7 +367,7 @@ export default function LandingPage() {
       />
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-stone-50/80 backdrop-blur-md border-b border-stone-200/50">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -389,7 +389,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-6 pt-20 pb-10">
+      <section className="min-h-screen flex items-center justify-center px-6 pt-28 pb-20">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left side - Text */}
@@ -459,7 +459,7 @@ export default function LandingPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-24 px-6 bg-white border-y border-stone-100">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-3 gap-8">
             <AnimatedStat value="24/7" label="Always Active" delay={0} />
@@ -470,7 +470,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-6">
+      <section className="py-28 px-6 bg-stone-50">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -486,7 +486,7 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-8">
             <FeatureCard
               icon={Bot}
               title="Autonomous Agents"
@@ -528,7 +528,7 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-28 px-6 bg-white">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -544,7 +544,7 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <div className="space-y-8">
+          <div className="space-y-10">
             <HowItWorksStep
               number={1}
               emoji="🪿"
@@ -571,7 +571,7 @@ export default function LandingPage() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20 px-6">
+      <section className="py-28 px-6 bg-stone-50">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -598,7 +598,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 text-center text-stone-500">
+      <footer className="py-12 px-6 text-center text-stone-500 bg-white border-t border-stone-100">
         <div className="flex items-center justify-center gap-2 mb-2">
           <span className="text-2xl">🪿</span>
           <span className="font-semibold text-stone-700">MommyGoose</span>
