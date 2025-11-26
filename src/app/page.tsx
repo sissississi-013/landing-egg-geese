@@ -12,46 +12,10 @@ import {
   Clock,
   Zap,
   Twitter,
-  Send,
   Heart,
   Repeat2,
   Eye,
 } from "lucide-react";
-
-// Animated floating eggs
-function FloatingEggs() {
-  const eggs = [
-    { id: 1, left: "10%", top: "20%", delay: 0, size: "text-4xl" },
-    { id: 2, left: "85%", top: "15%", delay: 1, size: "text-3xl" },
-    { id: 3, left: "75%", top: "70%", delay: 2, size: "text-5xl" },
-    { id: 4, left: "5%", top: "75%", delay: 0.5, size: "text-3xl" },
-    { id: 5, left: "45%", top: "85%", delay: 1.5, size: "text-4xl" },
-  ];
-
-  return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden">
-      {eggs.map((egg) => (
-        <motion.div
-          key={egg.id}
-          className={`absolute ${egg.size} opacity-20`}
-          style={{ left: egg.left, top: egg.top }}
-          animate={{
-            y: [0, -30, 0],
-            rotate: [0, 10, -10, 0],
-          }}
-          transition={{
-            duration: 5,
-            delay: egg.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          🥚
-        </motion.div>
-      ))}
-    </div>
-  );
-}
 
 // Interactive demo tweet
 function DemoTweet() {
@@ -81,14 +45,14 @@ function DemoTweet() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5 }}
-      className="bg-white rounded-2xl p-6 shadow-xl border-2 border-stone-100 max-w-md mx-auto"
+      className="bg-white rounded-2xl p-6 shadow-xl border-2 border-stone-100"
     >
       <div className="flex items-start gap-3 mb-4">
-        <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center text-white text-xl">
+        <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center text-white text-xl flex-shrink-0">
           🪿
         </div>
-        <div>
-          <div className="flex items-center gap-2">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="font-bold text-stone-900">Goldie</span>
             <span className="text-stone-500 text-sm">@mommygoose_ai</span>
             <span className="bg-orange-100 text-orange-600 text-xs px-2 py-0.5 rounded-full font-medium">
@@ -105,7 +69,7 @@ function DemoTweet() {
           <motion.span
             animate={{ opacity: [1, 0] }}
             transition={{ duration: 0.5, repeat: Infinity }}
-            className="inline-block w-0.5 h-5 bg-orange-500 ml-1"
+            className="inline-block w-0.5 h-5 bg-orange-500 ml-1 align-middle"
           />
         )}
       </p>
@@ -166,14 +130,14 @@ function FeatureCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
-      whileHover={{ y: -5, scale: 1.02 }}
-      className="bg-white rounded-2xl p-6 border-2 border-stone-100 hover:border-orange-200 transition-colors cursor-pointer"
+      whileHover={{ y: -5 }}
+      className="bg-white rounded-2xl p-6 border-2 border-stone-100 hover:border-orange-200 transition-all"
     >
       <div className="w-14 h-14 rounded-xl bg-orange-50 flex items-center justify-center mb-4">
         <Icon className="w-7 h-7 text-orange-500" />
       </div>
       <h3 className="text-xl font-bold text-stone-900 mb-2">{title}</h3>
-      <p className="text-stone-600">{description}</p>
+      <p className="text-stone-600 leading-relaxed">{description}</p>
     </motion.div>
   );
 }
@@ -190,7 +154,6 @@ function WaitlistForm() {
     if (!email) return;
 
     setIsLoading(true);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsLoading(false);
     setIsSubmitted(true);
@@ -202,17 +165,17 @@ function WaitlistForm() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center"
+          className="text-center py-4"
         >
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 200, damping: 10 }}
-            className="w-20 h-20 rounded-full bg-orange-500 mx-auto flex items-center justify-center mb-4"
+            className="w-16 h-16 rounded-full bg-orange-500 mx-auto flex items-center justify-center mb-4"
           >
-            <Check className="w-10 h-10 text-white" />
+            <Check className="w-8 h-8 text-white" />
           </motion.div>
-          <h3 className="text-2xl font-bold text-stone-900 mb-2">
+          <h3 className="text-xl font-bold text-stone-900 mb-2">
             You're on the list!
           </h3>
           <p className="text-stone-600">
@@ -224,7 +187,7 @@ function WaitlistForm() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           onSubmit={handleSubmit}
-          className="max-w-md mx-auto"
+          className="w-full max-w-md mx-auto"
         >
           <div
             className={`relative flex items-center bg-white rounded-full border-2 transition-all duration-300 ${
@@ -241,14 +204,14 @@ function WaitlistForm() {
               onBlur={() => setIsFocused(false)}
               placeholder="Enter your email"
               required
-              className="flex-1 px-6 py-4 bg-transparent outline-none text-stone-900 placeholder-stone-400"
+              className="flex-1 px-5 py-3.5 bg-transparent outline-none text-stone-900 placeholder-stone-400 min-w-0"
             />
             <motion.button
               type="submit"
               disabled={isLoading}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="m-1.5 px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-semibold flex items-center gap-2 transition-colors disabled:opacity-70"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="m-1.5 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-semibold flex items-center gap-2 transition-colors disabled:opacity-70 whitespace-nowrap"
             >
               {isLoading ? (
                 <motion.div
@@ -265,7 +228,7 @@ function WaitlistForm() {
             </motion.button>
           </div>
           <p className="text-center text-stone-500 text-sm mt-4">
-            Join 2,000+ marketers already on the waitlist
+            Join <span className="font-semibold text-orange-600">500+</span> marketers already on the waitlist
           </p>
         </motion.form>
       )}
@@ -289,18 +252,18 @@ function AnimatedStat({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay }}
-      className="text-center"
+      className="text-center px-4"
     >
       <motion.p
         initial={{ scale: 0.5 }}
         whileInView={{ scale: 1 }}
         viewport={{ once: true }}
         transition={{ delay: delay + 0.2, type: "spring" }}
-        className="text-4xl md:text-5xl font-bold text-orange-500 mb-2"
+        className="text-3xl sm:text-4xl md:text-5xl font-bold text-orange-500 mb-2"
       >
         {value}
       </motion.p>
-      <p className="text-stone-600">{label}</p>
+      <p className="text-stone-600 text-sm sm:text-base">{label}</p>
     </motion.div>
   );
 }
@@ -330,45 +293,23 @@ function HowItWorksStep({
       <div className="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold text-lg">
         {number}
       </div>
-      <div className="flex-1">
-        <div className="flex items-center gap-2 mb-1">
+      <div className="flex-1 pt-1">
+        <div className="flex items-center gap-2 mb-2">
           <span className="text-2xl">{emoji}</span>
           <h3 className="text-xl font-bold text-stone-900">{title}</h3>
         </div>
-        <p className="text-stone-600">{description}</p>
+        <p className="text-stone-600 leading-relaxed">{description}</p>
       </div>
     </motion.div>
   );
 }
 
 export default function LandingPage() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
   return (
-    <main className="min-h-screen relative overflow-hidden">
-      {/* Floating eggs background */}
-      <FloatingEggs />
-
-      {/* Interactive cursor glow */}
-      <div
-        className="fixed w-64 h-64 rounded-full pointer-events-none opacity-30 blur-3xl bg-orange-300 transition-all duration-300"
-        style={{
-          left: mousePosition.x - 128,
-          top: mousePosition.y - 128,
-        }}
-      />
-
+    <main className="min-h-screen bg-stone-50">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+      <nav className="sticky top-0 z-50 bg-stone-50/80 backdrop-blur-md border-b border-stone-200/50">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -377,37 +318,40 @@ export default function LandingPage() {
             <span className="text-3xl">🪿</span>
             <span className="text-xl font-bold text-stone-900">MommyGoose</span>
           </motion.div>
-          <motion.div
+          <motion.a
+            href="https://twitter.com/mommygoose"
+            target="_blank"
+            rel="noopener noreferrer"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2 text-stone-600"
+            className="flex items-center gap-2 text-stone-600 hover:text-orange-500 transition-colors"
           >
             <Twitter className="w-5 h-5" />
-            <span className="text-sm">@mommygoose</span>
-          </motion.div>
+            <span className="text-sm hidden sm:inline">@mommygoose</span>
+          </motion.a>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-6 pt-20 pb-10">
+      <section className="py-16 sm:py-20 lg:py-28 px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left side - Text */}
-            <div>
+            <div className="text-center lg:text-left">
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 rounded-full text-orange-600 font-medium text-sm mb-6"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 rounded-full text-orange-600 font-medium text-sm mb-6"
               >
                 <Sparkles className="w-4 h-4" />
                 AI-Powered Marketing Automation
               </motion.div>
 
               <motion.h1
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-5xl md:text-6xl font-bold text-stone-900 mb-6 leading-tight"
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-900 mb-6 leading-tight"
               >
                 Your Marketing
                 <br />
@@ -415,10 +359,10 @@ export default function LandingPage() {
               </motion.h1>
 
               <motion.p
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-xl text-stone-600 mb-8"
+                className="text-lg sm:text-xl text-stone-600 mb-8 max-w-lg mx-auto lg:mx-0"
               >
                 Deploy autonomous AI agents that market your product 24/7. No
                 more scheduling posts. No more staring at analytics. Just
@@ -426,7 +370,7 @@ export default function LandingPage() {
               </motion.p>
 
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
               >
@@ -435,33 +379,30 @@ export default function LandingPage() {
             </div>
 
             {/* Right side - Demo tweet */}
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4 }}
+              className="relative"
+            >
               <DemoTweet />
 
-              {/* Decorative elements */}
-              <motion.div
-                animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-                className="absolute -top-10 -right-10 text-6xl"
-              >
+              {/* Subtle decorative elements */}
+              <div className="absolute -top-6 -right-6 text-5xl opacity-50 hidden lg:block">
                 🥚
-              </motion.div>
-              <motion.div
-                animate={{ y: [0, 10, 0], rotate: [0, -5, 0] }}
-                transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-                className="absolute -bottom-10 -left-10 text-5xl"
-              >
+              </div>
+              <div className="absolute -bottom-6 -left-6 text-4xl opacity-50 hidden lg:block">
                 🪿
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-16 px-6 bg-white border-y border-stone-200">
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid grid-cols-3 gap-4 sm:gap-8">
             <AnimatedStat value="24/7" label="Always Active" delay={0} />
             <AnimatedStat value="10x" label="More Engagement" delay={0.1} />
             <AnimatedStat value="0" label="Manual Posts" delay={0.2} />
@@ -470,23 +411,23 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-6">
+      <section className="py-16 sm:py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold text-stone-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-stone-900 mb-4">
               Why MommyGoose?
             </h2>
-            <p className="text-xl text-stone-600 max-w-2xl mx-auto">
+            <p className="text-lg text-stone-600 max-w-2xl mx-auto">
               Stop wasting hours on social media. Let AI do the heavy lifting.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <FeatureCard
               icon={Bot}
               title="Autonomous Agents"
@@ -528,18 +469,18 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 px-6 bg-white">
-        <div className="max-w-4xl mx-auto">
+      <section className="py-16 sm:py-20 px-6 bg-white border-y border-stone-200">
+        <div className="max-w-3xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold text-stone-900 mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-stone-900 mb-4">
               How It Works
             </h2>
-            <p className="text-xl text-stone-600">
+            <p className="text-lg text-stone-600">
               Three simple steps to marketing freedom
             </p>
           </motion.div>
@@ -571,25 +512,19 @@ export default function LandingPage() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="py-16 sm:py-20 px-6">
+        <div className="max-w-2xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-white rounded-3xl p-12 border-2 border-stone-100 shadow-xl"
+            className="bg-white rounded-3xl p-8 sm:p-12 border-2 border-stone-200 shadow-lg text-center"
           >
-            <motion.div
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="text-7xl mb-6"
-            >
-              🪿
-            </motion.div>
-            <h2 className="text-4xl font-bold text-stone-900 mb-4">
+            <div className="text-6xl mb-6">🪿</div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 mb-4">
               Ready to put your marketing on autopilot?
             </h2>
-            <p className="text-xl text-stone-600 mb-8">
+            <p className="text-lg text-stone-600 mb-8">
               Join the waitlist and be first to know when MommyGoose hatches.
             </p>
             <WaitlistForm />
@@ -598,14 +533,16 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 text-center text-stone-500">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <span className="text-2xl">🪿</span>
-          <span className="font-semibold text-stone-700">MommyGoose</span>
+      <footer className="py-8 px-6 border-t border-stone-200 bg-white">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🪿</span>
+            <span className="font-semibold text-stone-700">MommyGoose</span>
+          </div>
+          <p className="text-sm text-stone-500">
+            AI-powered marketing automation. Coming soon.
+          </p>
         </div>
-        <p className="text-sm">
-          AI-powered marketing automation. Coming soon.
-        </p>
       </footer>
     </main>
   );
