@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -12,46 +12,12 @@ import {
   Clock,
   Zap,
   Twitter,
-  Send,
   Heart,
   Repeat2,
   Eye,
+  Feather,
+  Workflow,
 } from "lucide-react";
-
-// Animated floating eggs
-function FloatingEggs() {
-  const eggs = [
-    { id: 1, left: "10%", top: "20%", delay: 0, size: "text-4xl" },
-    { id: 2, left: "85%", top: "15%", delay: 1, size: "text-3xl" },
-    { id: 3, left: "75%", top: "70%", delay: 2, size: "text-5xl" },
-    { id: 4, left: "5%", top: "75%", delay: 0.5, size: "text-3xl" },
-    { id: 5, left: "45%", top: "85%", delay: 1.5, size: "text-4xl" },
-  ];
-
-  return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden">
-      {eggs.map((egg) => (
-        <motion.div
-          key={egg.id}
-          className={`absolute ${egg.size} opacity-20`}
-          style={{ left: egg.left, top: egg.top }}
-          animate={{
-            y: [0, -30, 0],
-            rotate: [0, 10, -10, 0],
-          }}
-          transition={{
-            duration: 5,
-            delay: egg.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          🥚
-        </motion.div>
-      ))}
-    </div>
-  );
-}
 
 // Interactive demo tweet
 function DemoTweet() {
@@ -80,12 +46,12 @@ function DemoTweet() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5 }}
-      className="bg-white rounded-2xl p-6 shadow-xl border-2 border-stone-100 max-w-md mx-auto"
+      transition={{ delay: 0.2 }}
+      className="bg-white rounded-2xl p-6 shadow-lg border border-stone-200 max-w-md mx-auto"
     >
       <div className="flex items-start gap-3 mb-4">
-        <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center text-white text-xl">
-          🪿
+        <div className="w-12 h-12 rounded-full bg-orange-100 border border-orange-200 flex items-center justify-center">
+          <Feather className="w-6 h-6 text-orange-600" />
         </div>
         <div>
           <div className="flex items-center gap-2">
@@ -167,13 +133,13 @@ function FeatureCard({
       viewport={{ once: true }}
       transition={{ delay, duration: 0.5 }}
       whileHover={{ y: -5, scale: 1.02 }}
-      className="bg-white rounded-2xl p-6 border-2 border-stone-100 hover:border-orange-200 transition-colors cursor-pointer"
+      className="bg-white rounded-2xl p-6 border border-stone-200 hover:border-orange-300 transition-colors cursor-pointer h-full flex flex-col"
     >
-      <div className="w-14 h-14 rounded-xl bg-orange-50 flex items-center justify-center mb-4">
+      <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center mb-4">
         <Icon className="w-7 h-7 text-orange-500" />
       </div>
       <h3 className="text-xl font-bold text-stone-900 mb-2">{title}</h3>
-      <p className="text-stone-600">{description}</p>
+      <p className="text-stone-600 leading-relaxed flex-1">{description}</p>
     </motion.div>
   );
 }
@@ -273,14 +239,15 @@ function WaitlistForm() {
   );
 }
 
-// Animated stats
-function AnimatedStat({
+function StatCard({
   value,
   label,
+  detail,
   delay,
 }: {
   value: string;
   label: string;
+  detail: string;
   delay: number;
 }) {
   return (
@@ -289,170 +256,140 @@ function AnimatedStat({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay }}
-      className="text-center"
+      className="bg-white border border-stone-200 rounded-2xl p-6 text-center shadow-sm"
     >
-      <motion.p
-        initial={{ scale: 0.5 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: delay + 0.2, type: "spring" }}
-        className="text-4xl md:text-5xl font-bold text-orange-500 mb-2"
-      >
-        {value}
-      </motion.p>
-      <p className="text-stone-600">{label}</p>
+      <p className="text-4xl font-bold text-orange-600 mb-2">{value}</p>
+      <p className="text-stone-900 font-semibold mb-1">{label}</p>
+      <p className="text-stone-500 text-sm leading-relaxed">{detail}</p>
     </motion.div>
   );
 }
 
-// How it works step
 function HowItWorksStep({
-  number,
+  step,
+  icon: Icon,
   title,
   description,
-  emoji,
   delay,
 }: {
-  number: number;
+  step: number;
+  icon: any;
   title: string;
   description: string;
-  emoji: string;
   delay: number;
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: -30 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay }}
-      className="flex items-start gap-4"
+      className="relative bg-white border border-stone-200 rounded-2xl p-6 shadow-sm h-full"
     >
-      <div className="flex-shrink-0 w-12 h-12 rounded-full bg-orange-500 text-white flex items-center justify-center font-bold text-lg">
-        {number}
-      </div>
-      <div className="flex-1">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-2xl">{emoji}</span>
-          <h3 className="text-xl font-bold text-stone-900">{title}</h3>
+      <div className="flex items-center gap-3 mb-4">
+        <div className="w-10 h-10 rounded-full bg-orange-100 border border-orange-200 text-orange-700 font-semibold flex items-center justify-center">
+          {step}
         </div>
-        <p className="text-stone-600">{description}</p>
+        <div className="w-10 h-10 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center">
+          <Icon className="w-5 h-5 text-orange-600" />
+        </div>
       </div>
+      <h3 className="text-xl font-bold text-stone-900 mb-2">{title}</h3>
+      <p className="text-stone-600 leading-relaxed">{description}</p>
     </motion.div>
   );
 }
 
 export default function LandingPage() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
   return (
-    <main className="min-h-screen relative overflow-hidden">
-      {/* Floating eggs background */}
-      <FloatingEggs />
-
-      {/* Interactive cursor glow */}
-      <div
-        className="fixed w-64 h-64 rounded-full pointer-events-none opacity-30 blur-3xl bg-orange-300 transition-all duration-300"
-        style={{
-          left: mousePosition.x - 128,
-          top: mousePosition.y - 128,
-        }}
-      />
-
+    <main className="min-h-screen bg-stone-50">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-stone-50/80 backdrop-blur-md border-b border-stone-200/50">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-white/90 backdrop-blur-md border-b border-stone-200/60">
+        <div className="max-w-6xl mx-auto grid grid-cols-12 items-center">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2"
+            className="col-span-8 flex items-center gap-3"
           >
-            <span className="text-3xl">🪿</span>
-            <span className="text-xl font-bold text-stone-900">MommyGoose</span>
+            <div className="w-11 h-11 rounded-2xl bg-orange-100 border border-orange-200 flex items-center justify-center">
+              <Feather className="w-6 h-6 text-orange-600" />
+            </div>
+            <div>
+              <p className="text-sm uppercase tracking-[0.2em] text-stone-500">MommyGoose</p>
+              <p className="text-lg font-bold text-stone-900">Autopilot Marketing</p>
+            </div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2 text-stone-600"
+            className="col-span-4 flex items-center justify-end gap-2 text-stone-600"
           >
             <Twitter className="w-5 h-5" />
-            <span className="text-sm">@mommygoose</span>
+            <span className="text-sm font-medium">@mommygoose</span>
           </motion.div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center px-6 pt-28 pb-20">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left side - Text */}
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 rounded-full text-orange-600 font-medium text-sm mb-6"
-              >
-                <Sparkles className="w-4 h-4" />
-                AI-Powered Marketing Automation
-              </motion.div>
+      <section className="min-h-screen flex items-center justify-center px-6 pt-32 pb-24">
+        <div className="max-w-6xl mx-auto grid grid-cols-12 gap-10 items-center">
+          {/* Left side - Text */}
+          <div className="col-span-12 md:col-span-7">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 rounded-full text-orange-600 font-semibold text-xs uppercase tracking-[0.15em] mb-6"
+            >
+              <Sparkles className="w-4 h-4" />
+              AI-Powered Growth Engine
+            </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="text-5xl md:text-6xl font-bold text-stone-900 mb-6 leading-tight"
-              >
-                Your Marketing
-                <br />
-                <span className="text-orange-500">on Autopilot</span>
-              </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-5xl md:text-6xl font-bold text-stone-900 leading-tight mb-6"
+            >
+              Marketing that runs itself.
+            </motion.h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="text-xl text-stone-600 mb-8"
-              >
-                Deploy autonomous AI agents that market your product 24/7. No
-                more scheduling posts. No more staring at analytics. Just
-                results.
-              </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-xl text-stone-600 leading-relaxed mb-10"
+            >
+              Launch a fleet of AI agents that protect your voice, publish in a unified rhythm, and keep your brand growing while you sleep.
+            </motion.p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <WaitlistForm />
-              </motion.div>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <WaitlistForm />
+            </motion.div>
+          </div>
 
-            {/* Right side - Demo tweet */}
-            <div className="relative">
-              <DemoTweet />
-
-              {/* Decorative elements */}
-              <motion.div
-                animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-                className="absolute -top-10 -right-10 text-6xl"
-              >
-                🥚
-              </motion.div>
-              <motion.div
-                animate={{ y: [0, 10, 0], rotate: [0, -5, 0] }}
-                transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-                className="absolute -bottom-10 -left-10 text-5xl"
-              >
-                🪿
-              </motion.div>
+          {/* Right side - Mascot + preview */}
+          <div className="col-span-12 md:col-span-5">
+            <div className="bg-white border border-orange-100 rounded-3xl p-8 shadow-xl">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-orange-100 border border-orange-200 flex items-center justify-center">
+                  <Feather className="w-7 h-7 text-orange-600" />
+                </div>
+                <div>
+                  <p className="text-sm uppercase tracking-[0.25em] text-stone-500">Meet the Goose</p>
+                  <p className="text-2xl font-bold text-stone-900">Steady, on-brand, always live.</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 gap-4">
+                <div className="p-4 rounded-2xl bg-orange-50 border border-orange-100">
+                  <p className="text-sm font-semibold text-orange-700 mb-1">Tone</p>
+                  <p className="text-stone-800">Warm, confident, and concise. Never spammy.</p>
+                </div>
+                <DemoTweet />
+              </div>
             </div>
           </div>
         </div>
@@ -460,11 +397,32 @@ export default function LandingPage() {
 
       {/* Stats Section */}
       <section className="py-24 px-6 bg-white border-y border-stone-100">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-3 gap-8">
-            <AnimatedStat value="24/7" label="Always Active" delay={0} />
-            <AnimatedStat value="10x" label="More Engagement" delay={0.1} />
-            <AnimatedStat value="0" label="Manual Posts" delay={0.2} />
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-12 gap-6">
+            <div className="col-span-12 md:col-span-4">
+              <StatCard
+                value="24/7"
+                label="Always Active"
+                detail="Agents publishing, replying, and iterating continuously."
+                delay={0}
+              />
+            </div>
+            <div className="col-span-12 md:col-span-4">
+              <StatCard
+                value="10x"
+                label="More Engagement"
+                detail="Consistent presence and fast responses keep audiences hooked."
+                delay={0.1}
+              />
+            </div>
+            <div className="col-span-12 md:col-span-4">
+              <StatCard
+                value="0"
+                label="Manual Posts"
+                detail="Strategy-first automation, not endless scheduling." 
+                delay={0.2}
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -486,50 +444,62 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <FeatureCard
-              icon={Bot}
-              title="Autonomous Agents"
-              description="AI agents that understand your brand voice and engage authentically with your audience."
-              delay={0}
-            />
-            <FeatureCard
-              icon={MessageSquare}
-              title="Smart Engagement"
-              description="Automatically find and respond to relevant conversations in your niche."
-              delay={0.1}
-            />
-            <FeatureCard
-              icon={TrendingUp}
-              title="Real Analytics"
-              description="Track what works and watch your AI learn and improve over time."
-              delay={0.2}
-            />
-            <FeatureCard
-              icon={Clock}
-              title="24/7 Presence"
-              description="Your marketing never sleeps. AI works around the clock in every timezone."
-              delay={0.3}
-            />
-            <FeatureCard
-              icon={Zap}
-              title="Instant Setup"
-              description="Deploy your first AI agent in minutes. No complex configuration needed."
-              delay={0.4}
-            />
-            <FeatureCard
-              icon={Sparkles}
-              title="Human-like Content"
-              description="Content that feels genuine, not robotic. Your audience won't know the difference."
-              delay={0.5}
-            />
+          <div className="grid grid-cols-12 gap-6 md:gap-8">
+            <div className="col-span-12 md:col-span-4">
+              <FeatureCard
+                icon={Bot}
+                title="Autonomous Agents"
+                description="AI agents that understand your brand voice and engage authentically with your audience."
+                delay={0}
+              />
+            </div>
+            <div className="col-span-12 md:col-span-4">
+              <FeatureCard
+                icon={MessageSquare}
+                title="Smart Engagement"
+                description="Automatically find and respond to relevant conversations in your niche."
+                delay={0.1}
+              />
+            </div>
+            <div className="col-span-12 md:col-span-4">
+              <FeatureCard
+                icon={TrendingUp}
+                title="Real Analytics"
+                description="Track what works and watch your AI learn and improve over time."
+                delay={0.2}
+              />
+            </div>
+            <div className="col-span-12 md:col-span-4">
+              <FeatureCard
+                icon={Clock}
+                title="24/7 Presence"
+                description="Your marketing never sleeps. AI works around the clock in every timezone."
+                delay={0.3}
+              />
+            </div>
+            <div className="col-span-12 md:col-span-4">
+              <FeatureCard
+                icon={Zap}
+                title="Instant Setup"
+                description="Deploy your first AI agent in minutes. No complex configuration needed."
+                delay={0.4}
+              />
+            </div>
+            <div className="col-span-12 md:col-span-4">
+              <FeatureCard
+                icon={Sparkles}
+                title="Human-like Content"
+                description="Content that feels genuine, not robotic. Your audience won't know the difference."
+                delay={0.5}
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* How It Works Section */}
       <section className="py-28 px-6 bg-white">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -540,32 +510,40 @@ export default function LandingPage() {
               How It Works
             </h2>
             <p className="text-xl text-stone-600">
-              Three simple steps to marketing freedom
+              Three deliberate steps from setup to live results
             </p>
           </motion.div>
 
-          <div className="space-y-10">
-            <HowItWorksStep
-              number={1}
-              emoji="🪿"
-              title="Create Your Goose"
-              description="Tell us about your product, target audience, and brand voice. Our AI learns your unique style."
-              delay={0}
-            />
-            <HowItWorksStep
-              number={2}
-              emoji="🥚"
-              title="Watch It Lay Eggs"
-              description="Your AI agent creates and schedules content, finds relevant conversations, and engages authentically."
-              delay={0.1}
-            />
-            <HowItWorksStep
-              number={3}
-              emoji="📈"
-              title="See Results Hatch"
-              description="Track engagement, conversions, and watch your audience grow - all on autopilot."
-              delay={0.2}
-            />
+          <div className="relative grid grid-cols-12 gap-6">
+            <div className="hidden md:block absolute top-[52px] left-4 right-4 h-px bg-orange-100" aria-hidden />
+
+            <div className="col-span-12 md:col-span-4">
+              <HowItWorksStep
+                step={1}
+                icon={Bot}
+                title="Create your goose"
+                description="Define your brand voice, guardrails, and goals. The agent learns before it posts."
+                delay={0}
+              />
+            </div>
+            <div className="col-span-12 md:col-span-4">
+              <HowItWorksStep
+                step={2}
+                icon={Workflow}
+                title="Watch it lay eggs"
+                description="Content, replies, and outreach are scheduled on a unified 12-column grid so every touchpoint aligns."
+                delay={0.1}
+              />
+            </div>
+            <div className="col-span-12 md:col-span-4">
+              <HowItWorksStep
+                step={3}
+                icon={TrendingUp}
+                title="See results"
+                description="Dashboards surface wins, and the agent adapts automatically for the next cycle."
+                delay={0.2}
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -577,20 +555,17 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="bg-white rounded-3xl p-12 border-2 border-stone-100 shadow-xl"
+            className="bg-white rounded-3xl p-12 border border-stone-200 shadow-xl"
           >
-            <motion.div
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="text-7xl mb-6"
-            >
-              🪿
-            </motion.div>
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-orange-50 text-orange-700 font-semibold uppercase text-xs tracking-[0.2em] mb-6">
+              <Sparkles className="w-4 h-4" />
+              Ready to launch
+            </div>
             <h2 className="text-4xl font-bold text-stone-900 mb-4">
               Ready to put your marketing on autopilot?
             </h2>
-            <p className="text-xl text-stone-600 mb-8">
-              Join the waitlist and be first to know when MommyGoose hatches.
+            <p className="text-xl text-stone-600 leading-relaxed mb-8">
+              Join the waitlist and be first to know when MommyGoose opens the coop.
             </p>
             <WaitlistForm />
           </motion.div>
@@ -599,13 +574,16 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="py-12 px-6 text-center text-stone-500 bg-white border-t border-stone-100">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <span className="text-2xl">🪿</span>
-          <span className="font-semibold text-stone-700">MommyGoose</span>
+        <div className="flex items-center justify-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-2xl bg-orange-100 border border-orange-200 flex items-center justify-center">
+            <Feather className="w-5 h-5 text-orange-600" />
+          </div>
+          <div className="text-left">
+            <p className="text-sm uppercase tracking-[0.18em] text-stone-500">MommyGoose</p>
+            <p className="text-base font-semibold text-stone-800">Autonomous marketing</p>
+          </div>
         </div>
-        <p className="text-sm">
-          AI-powered marketing automation. Coming soon.
-        </p>
+        <p className="text-sm">AI-powered marketing automation. Coming soon.</p>
       </footer>
     </main>
   );
